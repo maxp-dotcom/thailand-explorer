@@ -1,0 +1,13 @@
+node_modules/
+*.tar.gz
+*.log
+build/
+release/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc
+.DS_Store
+.openai/

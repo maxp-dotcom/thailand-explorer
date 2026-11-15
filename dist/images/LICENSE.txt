@@ -1,0 +1,11 @@
+Sabai destination illustrations
+
+The SVG illustrations in this directory were created for this project by Codex.
+They are original stylized illustrations, not location photographs or maps.
+No external photo assets are incorporated.
+
+Dedicated to the public domain under CC0 1.0 Universal:
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Destination coordinates and geographic country outlines have separate sources
+recorded in the destination metadata and project documentation.
