@@ -46,10 +46,9 @@ jobs:
           path: build
 
   deploy:
-    # Hard lock for the source-only upload. Remove the false guard only after explicit Pages approval.
-    # Set this repository variable to the string "true" only AFTER that approval.
+    # Public Pages publication explicitly approved by the repository owner.
+    # Keep repository opt-in, branch and pull-request restrictions in place.
     if: >-
-      false &&
       github.event_name != 'pull_request' &&
       github.ref == 'refs/heads/main' &&
       vars.PAGES_PUBLISH_ENABLED == 'true'

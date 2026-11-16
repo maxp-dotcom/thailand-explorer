@@ -6,7 +6,7 @@ Deutschsprachiger Destination Explorer, persönlicher Guide und regelbasierter R
 
 Die App läuft vollständig statisch. Der bestehende ES-Modul-Code unter `dist/` bleibt erhalten; Vite erstellt die öffentlichen Dateien unter `build/`. Es gibt keine React-, Server-, Datenbank- oder Vercel-Abhängigkeit.
 
-Ziel: `maxp-dotcom/thailand-explorer`, Base Path `/thailand-explorer/`. **Noch nicht öffentlich veröffentlicht.** Das Deployment ist im Workflow standardmäßig gesperrt und darf erst nach ausdrücklicher Freigabe aktiviert werden.
+Ziel: `maxp-dotcom/thailand-explorer`, Base Path `/thailand-explorer/`. **Pages-Veröffentlichung ausdrücklich freigegeben.** Der Workflow behält die Repository-Variable PAGES_PUBLISH_ENABLED=true, den main-Branch, den Ausschluss von Pull Requests und erfolgreiche Tests als Deployment-Bedingungen bei. Ein erfolgreicher Deployment-Lauf und der Abruf der Website bestätigen anschließend die Veröffentlichung.
 
 ```sh
 npm ci

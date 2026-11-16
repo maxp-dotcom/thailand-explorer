@@ -9,7 +9,7 @@ Die vorhandene App kann vollständig statisch auf GitHub Pages laufen. Sie benö
 **Erwartete URL nach erfolgreicher, ausdrücklich freigegebener Veröffentlichung:**
 `https://maxp-dotcom.github.io/thailand-explorer/`
 
-Diese URL ist noch kein Nachweis einer veröffentlichten Website. Das öffentliche Repository wurde von Max erstellt. Dieser Stand ist für den ausdrücklich beauftragten Quellcode-Upload nach main bestimmt. GitHub Pages wurde nicht aktiviert und der Deployment-Job bleibt fest gesperrt. Auch die bisherige private Site wird durch diesen Upload nicht aktualisiert.
+Diese URL ist noch kein Nachweis einer veröffentlichten Website. Das öffentliche Repository wurde von Max erstellt. Dieser Stand ist für den ausdrücklich beauftragten Quellcode-Upload nach main bestimmt. GitHub Pages ist auf GitHub Actions eingestellt. Max hat die Veröffentlichung ausdrücklich freigegeben; die feste Workflow-Sperre ist entfernt. Die zusätzliche Repository-Variable bleibt als Freigabebedingung erhalten. Auch die bisherige private Site wird durch diesen Upload nicht aktualisiert.
 
 GitHub ist im Chat verbunden. Der Zugriff auf das von Max angelegte Repository maxp-dotcom/thailand-explorer ist bestätigt; vor dem ersten Upload war das Repository leer. Die Verbindung meldet Schreibrechte. Es wurden keine bestehenden Repository-Dateien ersetzt. Für diese Aufgabe ist kein eigener API-Schlüssel oder dauerhaftes Deployment-Token erforderlich.
 
@@ -85,20 +85,20 @@ Der bisherige `sabai-plan-v1`-Speicherschlüssel und alle bestehenden Funktionen
 
 ## Freigabesperre und spätere Automatik
 
-Pushes und Pull Requests nach `main` führen Tests und Build aus. Der Deployment-Job besitzt derzeit zusätzlich eine feste `false &&`-Sperre. Er kann deshalb bei diesem Quellcode-Upload unabhängig von Repository-Variablen nicht starten. Nach einer späteren ausdrücklichen Pages-Freigabe muss diese Sperre zunächst entfernt werden. Danach ist ein Deployment nur erlaubt, wenn gleichzeitig:
+Pushes und Pull Requests nach `main` führen Tests und Build aus. Die feste `false &&`-Sperre wurde nach Max’ ausdrücklicher Pages-Freigabe entfernt. Ein Deployment ist weiterhin nur erlaubt, wenn gleichzeitig:
 
 1. das Ereignis kein Pull Request ist,
 2. der Branch `main` ist,
 3. die Repository-Variable `PAGES_PUBLISH_ENABLED` exakt den Wert `true` hat,
 4. Tests, Build und Production-Prüfungen erfolgreich waren.
 
-**Die Variable wurde nicht angelegt oder aktiviert.** Abwesend oder `false` bedeutet: kein Deployment. Sie darf erst nach Max’ ausdrücklicher Freigabe auf `true` gesetzt werden. Das Environment `github-pages` kann zusätzlich mit manuellen Genehmigungen geschützt werden, falls solche Schutzregeln für das Repository eingerichtet werden sollen.
+**Die Variable muss `PAGES_PUBLISH_ENABLED=true` sein.** Abwesend oder `false` bedeutet: kein Deployment. Die Veröffentlichungsfreigabe liegt vor. Die verbundene GitHub-Integration verweigert die Variablenverwaltung mit HTTP 403; erforderlich ist die Repository-Berechtigung Variables: write. Die Variable kann stattdessen vom Repository-Inhaber unter Settings → Secrets and variables → Actions → Variables angelegt werden. Das Environment `github-pages` kann zusätzlich mit manuellen Genehmigungen geschützt werden, falls solche Schutzregeln für das Repository eingerichtet werden sollen.
 
 Nach der erstmaligen Freigabe und Aktivierung veröffentlichen erfolgreiche zukünftige Pushes nach `main` automatisch. Vorher bleiben diese Pushes reine Build-Prüfungen. Pull Requests erhalten nie Pages-Schreibrechte. Das Build-Job-Token hat nur `contents: read`; erst der freigegebene Deployment-Job hat `pages: write` und `id-token: write`. Die offiziellen Actions sind auf verifizierte Commit-SHAs festgelegt. Es wird kein persönliches Zugriffstoken als Repository-Secret benötigt.
 
 ## Was du nach ausdrücklicher Freigabe tun musst
 
-Für GitHub Free braucht diese kostenlose Pages-Variante ein **öffentliches** Repository. Dadurch sind auch die hochgeladenen Quelltexte öffentlich. Das Repository wurde inzwischen von Max öffentlich erstellt und der Quellcode-Upload wurde ausdrücklich beauftragt. Die Website-Veröffentlichung ist weiterhin nicht freigegeben.
+Für GitHub Free braucht diese kostenlose Pages-Variante ein **öffentliches** Repository. Dadurch sind auch die hochgeladenen Quelltexte öffentlich. Das Repository wurde inzwischen von Max öffentlich erstellt und der Quellcode-Upload wurde ausdrücklich beauftragt. Die Website-Veröffentlichung wurde am 16.11.2026 ausdrücklich freigegeben.
 
 Nach der Freigabe:
 
@@ -117,10 +117,10 @@ Die normale GitHub-Anmeldung für Git verwenden. Keine Tokens in Dateien, URLs o
 
 3. Wenn Codex die weiteren Schritte übernehmen soll, bei der installierten GitHub-Verbindung den Repository-Zugriff auch für `thailand-explorer` aktivieren und die Repository-URL in diesem Chat nennen.
 4. Im neuen Repository **Settings → Pages → Build and deployment → Source → GitHub Actions** wählen.
-5. Nach erteilter Veröffentlichungsfreigabe zuerst die feste `false &&`-Sperre im deploy-Job des Workflows entfernen. Anschließend unter **Settings → Secrets and variables → Actions → Variables** die Repository-Variable `PAGES_PUBLISH_ENABLED` auf `true` setzen. Kein Secret anlegen. `PAGES_BASE_PATH` für das normale Projekt-Repository leer lassen.
+5. Die feste Workflow-Sperre ist nach erteilter Freigabe bereits entfernt. Unter **Settings → Secrets and variables → Actions → Variables** die Repository-Variable `PAGES_PUBLISH_ENABLED` auf `true` setzen. Kein Secret anlegen. `PAGES_BASE_PATH` für das normale Projekt-Repository leer lassen.
 6. **Actions → Build and deploy Thailand Explorer → Run workflow → main** ausführen. Anschließend die von GitHub gemeldete Deployment-URL prüfen. Spätere Pushes nach main starten dies automatisch.
 
-Bis zur Aufhebung der festen Sperre nach ausdrücklicher Freigabe ist der Deployment-Job immer gesperrt. Ein öffentliches Repository veröffentlicht allerdings bereits den Quellcode; deshalb auch Schritt 1 und den Upload erst nach ausdrücklicher Freigabe durchführen.
+Solange PAGES_PUBLISH_ENABLED nicht exakt true ist, wird der Deployment-Job übersprungen. Ein öffentliches Repository veröffentlicht allerdings bereits den Quellcode; deshalb auch Schritt 1 und den Upload erst nach ausdrücklicher Freigabe durchführen.
 
 ## Prüfung und Grenzen
 
@@ -133,7 +133,7 @@ Erfolgreich ausgeführt:
 - Artefaktprüfung auf typische private Schlüssel, bekannte Tokenformate, Credential-URLs, Bearer-Zugangsdaten, E-Mail-Adressen und interne Hosting-Metadaten. Die Fundprüfung protokolliert keine möglichen Geheimniswerte. Die Reiseinhalte wurden zusätzlich auf personenbezogene Buchungsdetails geprüft; die angegebenen Hotel-/Location-Adressen sind die bewusst vorgesehenen öffentlichen Orientierungspunkte.
 - Keine `.git`-, `.openai`-, `.env`-, Dokumentations-, Test- oder Abhängigkeitsdateien im Pages-Artefakt.
 
-Die HTTP-/DOM-Tests prüfen echte gebündelte Dateien und Interaktionslogik, jedoch keine visuelle Browserdarstellung. Es steht weiterhin kein CUA-Browserwerkzeug bereit; eine visuelle Desktop-/Mobilprüfung ist noch offen. Kein tatsächlicher GitHub-Actions-Lauf oder öffentliches Pages-Deployment wurde durchgeführt, da die Pages-Freigabe weiterhin fehlt. Ein Push des Quellcodes darf bereits den getrennten Build-Job starten; das ist kein Pages-Deployment.
+Die HTTP-/DOM-Tests prüfen echte gebündelte Dateien und Interaktionslogik, jedoch keine visuelle Browserdarstellung. Es steht weiterhin kein CUA-Browserwerkzeug bereit; eine visuelle Desktop-/Mobilprüfung ist noch offen. Der erste Quellcode-Upload hat Tests und Production Build auf GitHub bereits erfolgreich ausgeführt. Die Pages-Veröffentlichung ist nun freigegeben. Ein erfolgreicher Build allein ist noch kein Nachweis einer veröffentlichten Website: Dazu müssen auch der deploy-Job erfolgreich sein und die ausgelieferten Dateien geprüft werden.
 
 ## Offizielle Referenzen
 
